@@ -30,6 +30,9 @@
 window.addEventListener('load', ()=> {
     let long;
     let lat;
+    let tempDesc = document.querySelector('.temperature-description');
+    let tempDegree = document.querySelector('.temperature-degree');
+    let location = document.querySelector('.location-place');
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position =>{
@@ -37,7 +40,7 @@ window.addEventListener('load', ()=> {
             lat = position.coords.latitude;
 
             const proxy = 'https://cors-anywhere.herokuapp.com/';
-            const api = `${proxy}api.openweathermap.org/data/2.5/weather?lat={lat}&lon={long}&appid=c5dd93beef11d423d27ed69366c76207`;
+            const api = `${proxy}api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=c5dd93beef11d423d27ed69366c76207`;
 
             fetch(api)
             .then(response =>{
@@ -45,6 +48,12 @@ window.addEventListener('load', ()=> {
             })
             .then(data =>{
                 console.log(data);
+                const {temp, pressure} = data.main;
+                const {desc, clouds} = data.weather[0];
+
+                tempDegree.textContent = temp;
+                tempDesc.textContent = desc;
+                location.textContent = data.name;
             });
         });
 
