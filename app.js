@@ -35,7 +35,6 @@ window.addEventListener('load', ()=> {
     let tempSection = document.querySelector('.temperature');
     let tempSpan = document.querySelector('.temperature span');
     let location = document.querySelector('.location-place');
-    let iconID = document.querySelector('.icon');
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position =>{
@@ -48,6 +47,7 @@ window.addEventListener('load', ()=> {
             fetch(api)
             .then(response =>{
                 return response.json();
+               
             })
             .then(data =>{
                 console.log(data);
@@ -71,6 +71,18 @@ window.addEventListener('load', ()=> {
                         tempDegree.textContent = temp;    
                     }
                 });
+
+                var prefix = 'wi wi-';
+                var code = data.weather[0].id;
+                var icon = icons[code].icon;
+
+                // If we are not in the ranges mentioned above, add a day/night prefix.
+                if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+                    icon = 'day-' + icon;
+                }
+
+                // Finally tack on the prefix.
+                icon = prefix + icon;
             });
         });
     }
@@ -82,4 +94,5 @@ window.addEventListener('load', ()=> {
     //     skycons.play();
     //     return skycons.set(iconID, Skycons[currentIcon]);
     // }
+
 });
