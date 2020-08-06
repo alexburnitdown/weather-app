@@ -62,18 +62,32 @@ window.addEventListener('load', ()=> {
                 //set icon
                 // setIcons(description, iconID);
 
+                tempSpan.textContent = 'C';
+                tempDegree.textContent = Math.floor(celcius);
+
                 tempSection.addEventListener('click', () => {
-                    if (tempSpan.textContent === 'F') {
-                        tempSpan.textContent = 'C';
-                        tempDegree.textContent = Math.floor(celcius);
-                    } else {
-                        tempSpan.textContent = 'F';
-                        tempDegree.textContent = temp;    
-                    }
-                });
+                  if (tempSpan.textContent === 'C') {
+                      tempSpan.textContent = 'F';
+                      tempDegree.textContent = temp;   
+                  } else {
+                    tempSpan.textContent = 'C';
+                    tempDegree.textContent = Math.floor(celcius);
+                  }
+                  });
+
+                // tempSection.addEventListener('click', () => {
+                //     if (tempSpan.textContent === 'F') {
+                //         tempSpan.textContent = 'C';
+                //         tempDegree.textContent = Math.floor(celcius);
+                //     } else {
+                //         tempSpan.textContent = 'F';
+                //         tempDegree.textContent = temp;    
+                //     }
+                // });
 
                 // var prefix = 'wi wi-';
                 var code = data.weather[0].id;
+                // var code = 902;
                 console.log(code);
                 var icon = weatherIcons[code].icon;
 
