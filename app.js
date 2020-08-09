@@ -1,9 +1,9 @@
-// var input = document.querySelector('.input_text');
+
 // var main = document.querySelector('#name');
 // var temp = document.querySelector('.temp');
 // var desc = document.querySelector('.desc');
 // var clouds = document.querySelector('.clouds');
-// var button= document.querySelector('.submit');
+
 
 
 // button.addEventListener('click', function(name){
@@ -35,6 +35,9 @@ window.addEventListener('load', ()=> {
     let tempSection = document.querySelector('.temperature');
     let tempSpan = document.querySelector('.temperature span');
     let location = document.querySelector('.location-place');
+
+    var input = document.querySelector('.input_text');
+    var button= document.querySelector('.submit');
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position =>{
@@ -75,16 +78,6 @@ window.addEventListener('load', ()=> {
                   }
                   });
 
-                // tempSection.addEventListener('click', () => {
-                //     if (tempSpan.textContent === 'F') {
-                //         tempSpan.textContent = 'C';
-                //         tempDegree.textContent = Math.floor(celcius);
-                //     } else {
-                //         tempSpan.textContent = 'F';
-                //         tempDegree.textContent = temp;    
-                //     }
-                // });
-
                 // var prefix = 'wi wi-';
                 var code = data.weather[0].id;
                 // var code = 902;
@@ -108,6 +101,24 @@ window.addEventListener('load', ()=> {
 
 
     }
+
+    // button.addEventListener('click', function(name){
+    //   fetch('https://api.openweathermap.org/data/2.5/weather?q='+input.value+'&appid=50a7aa80fa492fa92e874d23ad061374')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     var tempValue = data['main']['temp'];
+    //     var nameValue = data['name'];
+    //     var descValue = data['weather'][0]['description'];
+      
+    //     main.innerHTML = nameValue;
+    //     desc.innerHTML = "Desc - "+descValue;
+    //     temp.innerHTML = "Temp - "+tempValue;
+    //     input.value ="";
+      
+    //   })
+      
+    //   .catch(err => alert("Wrong city name!"));
+    // })
 
     let weatherIcons = {
       "200": {

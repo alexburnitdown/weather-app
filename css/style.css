@@ -8,7 +8,7 @@ box-sizing: border-box;
 body {
     height: 100vh;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     flex-direction: column;
     align-items: center;
     background: linear-gradient(rgb(47,150,163), rgb(48, 62, 143));
@@ -16,23 +16,29 @@ body {
     color: white;
 }
 
-.location,
-.temperature {
-    height: 30vh;
+.location {
+    /* height: 30vh; */
+    margin-top: 5vh;
     width: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
 
 .temperature {
     flex-direction: column;
+    width: 50%;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
 }
 
 .degree-section {
     display: flex;
     align-items: center;
     cursor: pointer;
+    margin-top: 30px;
 }
 
 .degree-section span {
@@ -42,4 +48,23 @@ body {
 
 .degree-section h2 {
     font-size: 40px;
+}
+
+.degree-container {
+    display: flex;
+    width: 300px;
+    justify-content: center;
+    margin-top: 30px;
+    font-size: 30px;
+}
+
+.wi {
+    margin-right: 30px;
+}
+
+.input {
+    width: 600px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
 }
