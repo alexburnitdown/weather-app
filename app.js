@@ -102,23 +102,25 @@ window.addEventListener('load', ()=> {
 
     }
 
-    // button.addEventListener('click', function(name){
-    //   fetch('https://api.openweathermap.org/data/2.5/weather?q='+input.value+'&appid=50a7aa80fa492fa92e874d23ad061374')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     var tempValue = data['main']['temp'];
-    //     var nameValue = data['name'];
-    //     var descValue = data['weather'][0]['description'];
+    button.addEventListener('click', function(name){
+      const proxy = 'https://cors-anywhere.herokuapp.com/';
+      fetch(`${proxy}api.openweathermap.org/data/2.5/forecast?q=`+input.value+`&cnt=3&units=metric&appid=ca1bdedf062fbce18adec6c28c5a16bb`)
+      .then(response => response.json())
+      .then(data2 => {
+        console.log(data2);
+        var tempValue = data['main']['temp'];
+        var nameValue = data['name'];
+        var descValue = data['weather'][0]['description'];
       
-    //     main.innerHTML = nameValue;
-    //     desc.innerHTML = "Desc - "+descValue;
-    //     temp.innerHTML = "Temp - "+tempValue;
-    //     input.value ="";
+        main.innerHTML = nameValue;
+        desc.innerHTML = "Desc - "+descValue;
+        temp.innerHTML = "Temp - "+tempValue;
+        input.value ="";
       
-    //   })
+      })
       
-    //   .catch(err => alert("Wrong city name!"));
-    // })
+      .catch(err => alert("Wrong city name!"));
+    })
 
     let weatherIcons = {
       "200": {
