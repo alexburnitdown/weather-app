@@ -83,19 +83,38 @@ window.addEventListener('load', ()=> {
       .then(response => response.json())
       .then(data2 => {
         console.log(data2);
-        var tempValue = data['main']['temp'];
-        var nameValue = data['name'];
-        var descValue = data['weather'][0]['description'];
+        tempBody = document.querySelector('.temp-body');
+        var tempTemplate = document.querySelector('#temp').content;
+        var newTempTemplate = tempTemplate.querySelector('.temp__card');
       
-        main.innerHTML = nameValue;
-        desc.innerHTML = "Desc - "+descValue;
-        temp.innerHTML = "Temp - "+tempValue;
-        input.value ="";
+        var fragment = new DocumentFragment();
+
+        for (var i = 0; i < data2.length; i++) {
+            var newTemp = newTempTemplate.cloneNode(true);
+
+            var place = newCard.querySelector('.temp__place');
+            var day = newCard.querySelectorAll('.temp__day');
+            var temp = newCard.querySelector('.temp__temp');
+            var feelslike = newCard.querySelector('.temp__feelslike');
+            var iconSection = newCard.querySelector('.wi-icon');
+            var description = newCard.querySelector('.temp__description');
+          
+            // var tempValue = data['main']['temp'];
+            // var nameValue = data['name'];
+            // var descValue = data['weather'][0]['description'];
+          
+            // main.innerHTML = nameValue;
+            // desc.innerHTML = "Desc - "+descValue;
+            // temp.innerHTML = "Temp - "+tempValue;
+            // input.value ="";
+            fragment.appendChild(newTemp);
+          }
+            tempBody.appendChild(fragment);
+          })
+          
+          .catch(err => alert("Wrong city name!"));
+        })
       
-      })
-      
-      .catch(err => alert("Wrong city name!"));
-    })
 
     let weatherIcons = {
       "200": {
