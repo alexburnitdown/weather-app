@@ -83,13 +83,26 @@ window.addEventListener('load', ()=> {
       .then(response => response.json())
       .then(data2 => {
         console.log(data2);
+        var dataList = data2.list;
+        console.log('dataList', dataList);
+        // var dateObj = {};
+        // dataList.forEach(function(data) {
+            
+        //     dateObj = {
+        //         day:date.getDay(),
+        //         date:date.getDate(),
+        //         month: date.getMonth(),
+        //         year: date.getFullYear()
+        //     }
+        // })
+        // console.log('dateArray', dateObj);
         tempBody = document.querySelector('.temp-body');
         var tempTemplate = document.querySelector('#temp').content;
         var newTempTemplate = tempTemplate.querySelector('.temp__card');
       
         var fragment = new DocumentFragment();
 
-        for (var i = 0; i < data2.length; i++) {
+        for (var i = 0; i < dataList.length; i++) {
             var newTemp = newTempTemplate.cloneNode(true);
 
             var place = newCard.querySelector('.temp__place');
@@ -98,6 +111,22 @@ window.addEventListener('load', ()=> {
             var feelslike = newCard.querySelector('.temp__feelslike');
             var iconSection = newCard.querySelector('.wi-icon');
             var description = newCard.querySelector('.temp__description');
+
+            if (dataList[i].dt) {
+                day.textContent = new Date(data.dt*1000);
+            }
+
+            if (dataList[i].main.temp) {
+                temp.textContent = dataList[i].main.temp;
+            }
+
+            if (dataList[i].main.feelslike) {
+                feelslike.textContent = dataList[i].main.feelslike;
+            }
+
+            if (data2[i].weather[0].description) {
+                description.textContent = data2[i].weather[0].description;
+            }
           
             // var tempValue = data['main']['temp'];
             // var nameValue = data['name'];
