@@ -79,7 +79,7 @@ window.addEventListener('load', ()=> {
 
     button.addEventListener('click', function(name){
       const proxy = 'https://cors-anywhere.herokuapp.com/';
-      fetch(`${proxy}api.openweathermap.org/data/2.5/forecast?q=`+input.value+`&cnt=3&units=metric&appid=ca1bdedf062fbce18adec6c28c5a16bb`)
+      fetch(`${proxy}api.openweathermap.org/data/2.5/forecast?q=`+input.value+`&cnt=8&units=metric&appid=ca1bdedf062fbce18adec6c28c5a16bb`)
       .then(response => response.json())
       .then(data2 => {
         console.log(data2);
@@ -96,37 +96,33 @@ window.addEventListener('load', ()=> {
         //     }
         // })
         // console.log('dateArray', dateObj);
-        tempBody = document.querySelector('.temp-body');
+        tempToday = document.querySelector('.temp-today');
+        tempTommorrow = document.querySelector('.temp-tomorrow');
+        let place = document.querySelector('.place');
+        let currentDay = document.querySelector('.current-day');
+        let tommorrow = document.querySelector('.tommorrow');
+        var nowDate = (new Date()).getDate();
+        console.log('nowDate', nowDate);
+        // var day1 = (new Date(dataList[0].dt*1000)).getDay();
+        // var month1 = (new Date(dataList[0].dt*1000)).getMonth() + 1;
+        // var date1 = (new Date(dataList[0].dt*1000)).getDate();
+        // console.log('date1', date1);
+
         var tempTemplate = document.querySelector('#temp').content;
         var newTempTemplate = tempTemplate.querySelector('.temp__card');
+
+        place.textContent = input.value;
+        
       
-        var fragment = new DocumentFragment();
+        var fragmentToday = new DocumentFragment();
+        var fragmentTommorrow = new DocumentFragment();
 
         for (var i = 0; i < dataList.length; i++) {
             var newTemp = newTempTemplate.cloneNode(true);
+            var date2 = (new Date(dataList[i].dt*1000)).getDate();
 
-            var place = newCard.querySelector('.temp__place');
-            var day = newCard.querySelectorAll('.temp__day');
-            var temp = newCard.querySelector('.temp__temp');
-            var feelslike = newCard.querySelector('.temp__feelslike');
-            var iconSection = newCard.querySelector('.wi-icon');
-            var description = newCard.querySelector('.temp__description');
-
-            if (dataList[i].dt) {
-                day.textContent = new Date(data.dt*1000);
-            }
-
-            if (dataList[i].main.temp) {
-                temp.textContent = dataList[i].main.temp;
-            }
-
-            if (dataList[i].main.feelslike) {
-                feelslike.textContent = dataList[i].main.feelslike;
-            }
-
-            if (data2[i].weather[0].description) {
-                description.textContent = data2[i].weather[0].description;
-            }
+            
+            fillFragment(dataList[i], newTemp);          
           
             // var tempValue = data['main']['temp'];
             // var nameValue = data['name'];
@@ -136,14 +132,54 @@ window.addEventListener('load', ()=> {
             // desc.innerHTML = "Desc - "+descValue;
             // temp.innerHTML = "Temp - "+tempValue;
             // input.value ="";
-            fragment.appendChild(newTemp);
+
+            if (nowDate < date2) {
+                fragmentTommorrow.appendChild(newTemp);
+                tommorrow.textContent = 'Tommorrow';
+            } else {
+                fragmentToday.appendChild(newTemp);
+                currentDay.textContent = 'Today';
+            }
+            
+            
           }
-            tempBody.appendChild(fragment);
+            tempToday.appendChild(fragmentToday);
+            tempTommorrow.appendChild(fragmentTommorrow);
           })
           
-          .catch(err => alert("Wrong city name!"));
+        //   .catch(err => alert("Wrong city name!"));
         })
-      
+
+    function fillFragment(dataList, newTemp) {
+        var time = newTemp.querySelector('.temp__time');
+            var temp = newTemp.querySelector('.temp__temp');
+            var feelslike = newTemp.querySelector('.temp__feelslike');
+            var iconSection = newTemp.querySelector('.wi-icon');
+            var description = newTemp.querySelector('.temp__description');
+            var code = dataList.weather[0].id;
+            var icon = weatherIcons[code].icon;
+            if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+                icon = 'day-' + icon;
+            }
+
+            iconSection.classList.add('wi-' + icon);
+
+            if (dataList.dt) {
+                time.textContent = (new Date(dataList.dt*1000)).getHours() + ':00';
+            }
+
+            if (dataList.main.temp) {
+                temp.textContent = Math.floor(dataList.main.temp);
+            }  
+
+            if (dataList.main.feels_like) {
+                feelslike.textContent = Math.floor(dataList.main.feels_like);
+            }
+
+            if (dataList.weather[0].description) {
+                description.textContent = dataList.weather[0].description;
+            }
+    }
 
     let weatherIcons = {
       "200": {

@@ -17,7 +17,7 @@ body {
 }
 
 .location {
-    /* height: 30vh; */
+    height: 30vh;
     margin-top: 5vh;
     width: 50%;
     display: flex;
@@ -38,7 +38,7 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .degree-section span {
@@ -54,7 +54,7 @@ body {
     display: flex;
     width: 300px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 15px;
     font-size: 30px;
 }
 
@@ -64,7 +64,72 @@ body {
 
 .input {
     width: 600px;
-    margin-top: 60px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
+}
+
+.temp-today,
+.temp-tomorrow {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    /* outline: 1px solid red; */
+}
+
+.temp__card {
+    width: 15%;
+    margin-right: 10px;
+    /* outline: 1px solid yellow; */
+}
+
+.temp__card:last-child {
+    margin-right: 0px;
+}
+
+.place {
+    text-transform: capitalize;
+    margin-top: 15px;
+}
+
+.current-day,
+.tommorrow {
+    margin-top: 15px;
+}
+
+.input_text {
+  width: 200px;
+  height: 30px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 5px 5px;
+  margin-right: 10px;
+  border: none;
+}
+
+.submit {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer; 
+
+    display: block;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px 5px;
+
+    color: white;
+    background-color: blue;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 30px;
 }
