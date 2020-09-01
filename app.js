@@ -37,8 +37,6 @@ window.addEventListener('load', ()=> {
                 tempDesc.textContent = description;
                 location.textContent = data.name;
                 let celcius = (temp - 32)*(5/9);
-                //set icon
-                // setIcons(description, iconID);
 
                 tempSpan.textContent = 'C';
                 tempDegree.textContent = Math.floor(celcius);
@@ -53,7 +51,6 @@ window.addEventListener('load', ()=> {
                   }
                   });
 
-                // var prefix = 'wi wi-';
                 var code = data.weather[0].id;
                 // var code = 902;
                 console.log(code);
@@ -69,7 +66,6 @@ window.addEventListener('load', ()=> {
                 console.log(icon);
                 let iconSection = document.querySelector('.wi-icon');
                 iconSection.classList.add('wi-' + icon);
-                // document.querySelector('.wi-day-' + icon);
             });
  
         });
@@ -78,77 +74,57 @@ window.addEventListener('load', ()=> {
     }
 
     button.addEventListener('click', function(name){
+      removeWeather();
+      let place = document.querySelector('.place');
       const proxy = 'https://cors-anywhere.herokuapp.com/';
       fetch(`${proxy}api.openweathermap.org/data/2.5/forecast?q=`+input.value+`&cnt=8&units=metric&appid=ca1bdedf062fbce18adec6c28c5a16bb`)
       .then(response => response.json())
       .then(data2 => {
         console.log(data2);
         var dataList = data2.list;
-        console.log('dataList', dataList);
-        // var dateObj = {};
-        // dataList.forEach(function(data) {
-            
-        //     dateObj = {
-        //         day:date.getDay(),
-        //         date:date.getDate(),
-        //         month: date.getMonth(),
-        //         year: date.getFullYear()
-        //     }
-        // })
-        // console.log('dateArray', dateObj);
         tempToday = document.querySelector('.temp-today');
-        tempTommorrow = document.querySelector('.temp-tomorrow');
-        let place = document.querySelector('.place');
+        temptomorrow = document.querySelector('.temp-tomorrow');
         let currentDay = document.querySelector('.current-day');
-        let tommorrow = document.querySelector('.tommorrow');
+        let tomorrow = document.querySelector('.tomorrow');
         var nowDate = (new Date()).getDate();
-        console.log('nowDate', nowDate);
-        // var day1 = (new Date(dataList[0].dt*1000)).getDay();
-        // var month1 = (new Date(dataList[0].dt*1000)).getMonth() + 1;
-        // var date1 = (new Date(dataList[0].dt*1000)).getDate();
-        // console.log('date1', date1);
-
         var tempTemplate = document.querySelector('#temp').content;
         var newTempTemplate = tempTemplate.querySelector('.temp__card');
 
         place.textContent = input.value;
-        
-      
+        input.value = '';
         var fragmentToday = new DocumentFragment();
-        var fragmentTommorrow = new DocumentFragment();
+        var fragmenttomorrow = new DocumentFragment();
 
         for (var i = 0; i < dataList.length; i++) {
             var newTemp = newTempTemplate.cloneNode(true);
             var date2 = (new Date(dataList[i].dt*1000)).getDate();
-
-            
+           
             fillFragment(dataList[i], newTemp);          
-          
-            // var tempValue = data['main']['temp'];
-            // var nameValue = data['name'];
-            // var descValue = data['weather'][0]['description'];
-          
-            // main.innerHTML = nameValue;
-            // desc.innerHTML = "Desc - "+descValue;
-            // temp.innerHTML = "Temp - "+tempValue;
-            // input.value ="";
 
             if (nowDate < date2) {
-                fragmentTommorrow.appendChild(newTemp);
-                tommorrow.textContent = 'Tommorrow';
+                fragmenttomorrow.appendChild(newTemp);
+                tomorrow.textContent = 'Tomorrow';
             } else {
                 fragmentToday.appendChild(newTemp);
                 currentDay.textContent = 'Today';
             }
-            
-            
+                      
           }
             tempToday.appendChild(fragmentToday);
-            tempTommorrow.appendChild(fragmentTommorrow);
-          })
-          
-        //   .catch(err => alert("Wrong city name!"));
+            temptomorrow.appendChild(fragmenttomorrow);
         })
+          .catch(function err() {
+            alert("Wrong city name!");
+            place.textContent = 'Wrong city name!';
+          });
+      })
+
+      function removeWeather() {
+        var weatherCard = document.querySelectorAll('.temp__card');
+        weatherCard .forEach(function (card) {
+          card.remove();
+        });
+      }
 
     function fillFragment(dataList, newTemp) {
         var time = newTemp.querySelector('.temp__time');
