@@ -27,12 +27,17 @@
         <button type="submit" class="submit">OK</button>
     </div>
 
-    <h2 class="place"></h2>
-    <h3 class="current-day"></h3>
-    <section class="temp-today"></section>
-    <h3 class="tomorrow"></h3>
-    <section class="temp-tomorrow"></section>
+    <div class="chart_wrapper">
+        <canvas id="myChart"></canvas>
+    </div>
 
+    <div class="main_wrapper">
+        <h2 class="place"></h2>
+        <h3 class="current-day"></h3>
+        <section class="temp-today"></section>
+        <h3 class="tomorrow"></h3>
+        <section class="temp-tomorrow"></section>
+    </div>
     <template id="temp">
         <article class="temp__card forecast">
           <p class="temp__time">30</p>
@@ -43,7 +48,8 @@
         </article>
       </template>
 
-
+      
       
     <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </html>

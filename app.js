@@ -75,6 +75,7 @@ window.addEventListener('load', ()=> {
 
     button.addEventListener('click', function(name){
       removeWeather();
+      
       let place = document.querySelector('.place');
       const proxy = 'https://cors-anywhere.herokuapp.com/';
       fetch(`${proxy}api.openweathermap.org/data/2.5/forecast?q=`+input.value+`&cnt=8&units=metric&appid=ca1bdedf062fbce18adec6c28c5a16bb`)
@@ -90,6 +91,8 @@ window.addEventListener('load', ()=> {
         var tempTemplate = document.querySelector('#temp').content;
         var newTempTemplate = tempTemplate.querySelector('.temp__card');
 
+        chartIt(dataList);
+
         place.textContent = input.value;
         input.value = '';
         var fragmentToday = new DocumentFragment();
@@ -98,7 +101,6 @@ window.addEventListener('load', ()=> {
         for (var i = 0; i < dataList.length; i++) {
             var newTemp = newTempTemplate.cloneNode(true);
             var date2 = (new Date(dataList[i].dt*1000)).getDate();
-           
             fillFragment(dataList[i], newTemp);          
 
             if (nowDate < date2) {
@@ -109,21 +111,114 @@ window.addEventListener('load', ()=> {
                 currentDay.textContent = 'Today';
             }
                       
-          }
+        }
             tempToday.appendChild(fragmentToday);
             temptomorrow.appendChild(fragmenttomorrow);
-        })
-          .catch(function err() {
-            alert("Wrong city name!");
-            place.textContent = 'Wrong city name!';
-          });
       })
+        .catch(function err() {
+          alert("Wrong city name!");
+          place.textContent = 'Wrong city name!';
+        });
+    });
 
       function removeWeather() {
         var weatherCard = document.querySelectorAll('.temp__card');
         weatherCard .forEach(function (card) {
           card.remove();
         });
+      }
+
+      const xlabels = [];
+      const ytemps = [];
+
+      async function chartIt(dataList) {
+        await getData(dataList);
+        console.log('xlabels', xlabels);
+        console.log('ytemps', ytemps);
+        const ctx = document.getElementById('myChart').getContext('2d');
+        ;
+        const chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+        
+            // The data for our dataset
+            data: {
+                labels: xlabels,
+                datasets: [{
+                    // label: 'Weather graph',
+                    fill: false,
+                    // xAxisID: 'hours',
+                    // yAxisID: 'temps',
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    borderColor: 'rgb(255, 255, 255)',
+                    hoverBackgroundColor: 'rgb(255, 255, 255)',
+                    pointBackgroundColor: 'rgb(255, 255, 255)',
+                    data: ytemps
+                }]
+            },
+        
+            // Configuration options go here
+            options: {
+              legend: {
+                display: false
+              },
+
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 18,
+                    fontColor: '#fff',
+                    padding: 0,
+                    labelString: "Hours"
+                  },
+                  ticks: {
+                    fontColor: '#fff'
+                  }
+                }], 
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    fontSize: 18,
+                    fontColor: '#fff',
+                    padding: 0,
+                    labelString: "Temperature"
+                  },
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor: '#fff'
+                    }
+                }]
+              }
+              
+
+
+
+            }
+        });
+      }
+
+      async function getData(dataList) {
+        console.log('22', dataList);
+
+        
+        for (var i = 0; i < dataList.length; i++) {
+          
+          if (dataList[i].dt) {
+            var time = (new Date(dataList[i].dt*1000)).getHours();
+            console.log('time', time);
+          }
+          if (dataList[i].main.temp) {
+            var temp = Math.floor(dataList[i].main.temp);
+            console.log('temp', temp);
+          }
+
+          xlabels.push(time);
+          ytemps.push(temp);
+              
+        }
+        
+        
       }
 
     function fillFragment(dataList, newTemp) {
